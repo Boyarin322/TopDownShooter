@@ -9,7 +9,7 @@ public class FreezeBullet : Bullet
     private Color _baseColor;
     private Color _freezeColor = Color.cyan;
 
-    private Renderer _collisionRenderer;
+    private SpriteRenderer _collisionRenderer;
     private Rigidbody2D _collisionRb;
 
     public override void OnCollisionEnter2D(Collision2D collision)
@@ -19,20 +19,14 @@ public class FreezeBullet : Bullet
     }
     private void Freeze(Collision2D collision)
     {
-
         _collisionRb = collision.gameObject.GetComponent<Rigidbody2D>();
-        _collisionRenderer = collision.gameObject.GetComponent<Renderer>();
+        _collisionRenderer = collision.gameObject.GetComponent<SpriteRenderer>();
 
         _baseColor = _collisionRenderer.material.color;
 
         _collisionRenderer.material.color = _freezeColor;
-        StartCoroutine(FreezeCoroutine());
+        StartCoroutine(collision.FreezeCoroutine());
 
     }
-    IEnumerator FreezeCoroutine()
-    {
-        yield return new WaitForSeconds(3);
-        _collisionRenderer.material.color = _baseColor;
-        Debug.Log("Succes");
-    }
+  
 }
